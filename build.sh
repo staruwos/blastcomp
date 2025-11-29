@@ -30,10 +30,11 @@ docker run --rm -v "$(pwd):$CONTAINER_WORK_DIR" $IMAGE_NAME /bin/bash -c "
     echo 'Compiling C Code...'
     m68k-linux-gnu-gcc -m68000 -ffreestanding -O2 -I./$SRC_DIR -c $SRC_DIR/main.c -o $BUILD_DIR/main.o
     m68k-linux-gnu-gcc -m68000 -ffreestanding -O2 -I./$SRC_DIR -c $SRC_DIR/input.c -o $BUILD_DIR/input.o
+    m68k-linux-gnu-gcc -m68000 -ffreestanding -O2 -I./$SRC_DIR -c $SRC_DIR/vdp.c -o $BUILD_DIR/vdp.o
 
     # Link them together using the linker script
     echo 'Linking...'
-    m68k-linux-gnu-ld -T sega.ld -o output.elf $BUILD_DIR/boot.o $BUILD_DIR/input.o $BUILD_DIR/main.o
+    m68k-linux-gnu-ld -T sega.ld -o output.elf $BUILD_DIR/boot.o $BUILD_DIR/input.o $BUILD_DIR/vdp.o $BUILD_DIR/main.o
 
     # Extract the binary machine code to create the .bin ROM
     echo 'Building .bin...'
