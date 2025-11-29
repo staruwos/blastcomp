@@ -5,11 +5,11 @@
     .long   0x00FFE000      /* Stack Pointer */
     .long   _start          /* Entry Point */
 
-    /* Interrupt Vectors (Placeholders to prevent crashes on unexpected interrupts) */
-    .long   _start, _start, _start, _start, _start, _start, _start, _start
-    .long   _start, _start, _start, _start, _start, _start, _start, _start
-    .long   _start, _start, _start, _start, _start, _start, _start, _start
-    .long   _start, _start, _start, _start, _start, _start, _start, _start
+    /* Redirect all interrupts to a safe handler that does nothing */
+    .long   _trap, _trap, _trap, _trap, _trap, _trap, _trap, _trap
+    .long   _trap, _trap, _trap, _trap, _trap, _trap, _trap, _trap
+    .long   _trap, _trap, _trap, _trap, _trap, _trap, _trap, _trap
+    .long   _trap, _trap, _trap, _trap, _trap, _trap, _trap, _trap
 
     /* --- 2. SEGA Header (Starts at 0x100) --- */
     /* Must be exactly at this offset for the console to recognize it */
@@ -46,4 +46,8 @@ skip_tmss:
 
 loop:
     bra.s   loop
+
+/* Safe Interrupt Handler */
+_trap:
+    rte     /* Return from Exception (ignore the interrupt) */
 
